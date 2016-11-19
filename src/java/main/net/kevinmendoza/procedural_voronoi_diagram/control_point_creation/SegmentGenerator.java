@@ -29,22 +29,19 @@ public class SegmentGenerator extends AbstractControlGenerator {
 	
 	protected double getMagnitude(double[] point){
 		Random rand = getPointBasedRandom(point);
-		double magnitude = rand.nextDouble()*getSpacing()/2 + getSpacing()/2;
+		double magnitude = (rand.nextDouble() + 2)*getSpacing()/3;
 		return magnitude;
 	}
 	
 	protected double[] getUnitVector(double[] point){
 		Random rand = getPointBasedRandom(point);
-		double[] unitVector = {rand.nextDouble() + 2,
-							   rand.nextDouble() + 2,
-							   rand.nextDouble() + 2};
+		double[] unitVector = {rand.nextDouble() -0.25,
+							   rand.nextDouble() -0.25};
 		double mag = unitVector[0]*unitVector[0] + 
-					 unitVector[1]*unitVector[1] + 
-					 unitVector[2]*unitVector[2];
+					 unitVector[1]*unitVector[1];
 		mag = Math.sqrt(mag);
 		unitVector[0]/=mag;
 		unitVector[1]/=mag;
-		unitVector[2]/=mag;
 		return unitVector;
 	}
 

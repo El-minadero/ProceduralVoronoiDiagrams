@@ -6,6 +6,6 @@ import net.kevinmendoza.procedural_voronoi_diagram.control_point_behavior.Contro
 
 public interface VoronoiDiagram {
 
-	public List<ControlPointInterface> getLowestCostObjectsAtPoint(double[] pointVec);
+	public List<ControlPointInterface> getLowestCostObjectsAtPoint(double[] pointVec, int dimensions);
 	
 }

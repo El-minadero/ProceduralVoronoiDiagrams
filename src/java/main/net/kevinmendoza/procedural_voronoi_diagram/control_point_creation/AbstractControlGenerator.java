@@ -6,26 +6,26 @@ import java.util.List;
 
 import net.kevinmendoza.procedural_voronoi_diagram.control_point_behavior.ControlDefaultCombined;
 import net.kevinmendoza.procedural_voronoi_diagram.control_point_behavior.ControlPointInterface;
+import net.kevinmendoza.procedural_voronoi_diagram.control_point_behavior.ControlPointUtility;
 
 abstract class AbstractControlGenerator implements ControlPointCreation {
 
 	private SeedPointGenerator pointGeneration;
 	private List<ControlPointInterface> centers;
-	private double[] creationCenter;
-	private double spacing;
+	private double SPACING = 30;
+	private double VARIANCE = 2.0;
 
 	public AbstractControlGenerator(long seed) {
 		pointGeneration = new SeedPointGenerator(seed);
-		spacing = 30;
 		centers = new ArrayList<ControlPointInterface>();
 	}
 	
 	protected long getPointBasedSeed(double[] center){
-		long i = 5;
-		i = (long) (i*center[0]*5 + 13);
-		i = (long) (i*center[1]*5 + 13);
-		i = (long) (i*center[2]*5 + 13);
-		return i;
+		int[] newCenter = new int[3];
+		for(int i = 0;i<center.length;i++){
+			newCenter[i] =(int)(center[i]/SPACING);
+		}
+		return ControlPointUtility.CreateSeedHash(pointGeneration.getSeed(),newCenter);
  	}
 	
 	protected int getWeightMult(double[] center){
@@ -37,25 +37,24 @@ abstract class AbstractControlGenerator implements ControlPointCreation {
 	}
 	
 	protected void setSpacing(double spacing){
-		this.spacing=spacing;
+		this.SPACING=spacing;
 	}
 	
 	protected double getSpacing(){
-		return spacing;
+		return SPACING;
 	}
 	
-	protected List<double[]> getSpacedPoints(double pointSpacing,double[] center){
-		return pointGeneration.getSpacedPoints(pointSpacing, center);
+	protected List<int[]> getSpacedPoints(double pointSpacing,int dimensions, double[] center){
+		return pointGeneration.getSpacedPoints(pointSpacing, dimensions,center);
 	}
 	
-	protected List<double[]> offsetSpacedPoints(List<double[]> potentialCoords, int pointSpacing){
-		return pointGeneration.offsetPoints(potentialCoords, (int) pointSpacing);
+	protected List<double[]> offsetSpacedPoints(List<int[]> potentialCoords,int dimensions, double pointSpacing){
+		return pointGeneration.offsetPoints(potentialCoords,pointSpacing,VARIANCE);
 	}
 	
-	protected List<double[]> getCenters(double pointSpacing, double[] center){
-		List<double[]> potentialCoords = getSpacedPoints(pointSpacing, center);
-		potentialCoords = offsetSpacedPoints(potentialCoords, (int) pointSpacing);
-		return potentialCoords;
+	protected List<double[]> getCenters(double pointSpacing, int dimensions, double[] center){
+		List<int[]> potentialCoords = getSpacedPoints(pointSpacing, dimensions, center);
+		return offsetSpacedPoints(potentialCoords, dimensions, pointSpacing);
 	}
 	
 	protected abstract void changeSpacing(double[] pointVec);
@@ -68,15 +67,15 @@ abstract class AbstractControlGenerator implements ControlPointCreation {
 				.Build();
 	}
 
-	public List<ControlPointInterface> getLocalControlPoints(double[] pointVec){
+	public List<ControlPointInterface> getLocalControlPoints(double[] pointVec,int dimensions){
 		changeSpacing(pointVec);
 		centers.clear();
-		createCenters(pointVec);
+		createCenters(pointVec,dimensions);
 		return centers;
 	}
 
-	private void createCenters(double[] pnt){
-		List<double[]> points = getCenters(spacing,pnt);
+	private void createCenters(double[] pnt,int dimensions){
+		List<double[]> points = getCenters(SPACING,dimensions,pnt);
 		for(double[] point: points){
 			centers.add(buildCenterObject(point));
 		}

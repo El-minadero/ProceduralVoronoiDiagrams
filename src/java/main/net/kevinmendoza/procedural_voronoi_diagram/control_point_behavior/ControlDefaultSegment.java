@@ -8,7 +8,7 @@ public class ControlDefaultSegment extends ControlAbstractPoint  {
 	private double max;
 	private double squaredMax;
 	private String label;
-	private final double cutoff = 2;
+	private final double cutoff = 3;
 	
 	public ControlDefaultSegment(ControlSegmentBuilder builder){
 		super("Segment",1,1);
@@ -31,19 +31,30 @@ public class ControlDefaultSegment extends ControlAbstractPoint  {
 			double[] p = getClosestPoint(pnt.getPoint());
 			dist = getDistance(p, true);
 		}
+		else {
+			//TODO idk what to do here
+		}
 		return (dist < getDistanceCutoff());
 	}
 
 	@Override
 	public double getUnweightedDistance(double[] pointVec) {
 		double[] point = getClosestPoint(pointVec);
-		return ControlPointInterface.GetSRootDist(point, pointVec);
+		return ControlPointUtility.GetSRootDist(point, pointVec);
 	}
 	
 	@Override
 	public double[] getClosestPoint(double[] p) {
 		double[] ap = { p[0] - end1[0], p[1] - end1[1] };
 		double t = ControlPointUtility.DotProduct(ap,vector)/squaredMax;
+		if(t>1.0 || t < 0) {
+			double dist1 = ControlPointUtility.GetSRootDist(p, end1);
+			double dist2 = ControlPointUtility.GetSRootDist(p, end2);
+			if(dist1<dist2)
+				return end1;
+			else
+				return end2;
+		}
 		return getParametricPoint(t);
 	}
 	
@@ -63,9 +74,8 @@ public class ControlDefaultSegment extends ControlAbstractPoint  {
 	}
 	
 	private void createString() {
-		this.label = "   end1 x" 	+ Math.floor(end1[0]) 	+ ": y" + Math.floor(end1[1]) + 
-				   " end2 x" 		+ Math.floor(end2[0])		+ ": y " + Math.floor(end2[1]) +
-				   " length " 		+ Math.floor(max) 			+ "   ";
+		this.label = ControlPointUtility.CreateLabel(end1) + 
+					 ControlPointUtility.CreateLabel(end2);
 	}
 	
 	private void initLine(ControlSegmentBuilder builder){
@@ -78,17 +88,17 @@ public class ControlDefaultSegment extends ControlAbstractPoint  {
 		vector = v; end1 = p1;end2 = p2;
 		squaredMax = max*max;
 		createString();
-		int i = 1;
-		i = (int) (i*end1[0] + 13);
-		i = (int) (i*end1[1] + 13);
-		i = (int) (i*end2[0] + 13);
-		i = (int) (i*end2[1] + 13);
-		hashCode = i;
+		hashCode = ControlPointUtility.CreateHash(end1) 
+				 ^ ControlPointUtility.CreateHash(end2);
+	}
+	
+	public int getRGBIdentifier(){
+		return 500;
 	}
 
 	@Override
 	public String toString() {
-		return label;
+		return getType() + " " + label;
 	}
 	
 	@Override

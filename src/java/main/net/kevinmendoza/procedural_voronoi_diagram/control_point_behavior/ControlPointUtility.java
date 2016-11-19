@@ -2,7 +2,7 @@ package net.kevinmendoza.procedural_voronoi_diagram.control_point_behavior;
 
 import java.util.Arrays;
 
-class ControlPointUtility {
+public class ControlPointUtility {
 
 	
 	public static double Distance(ControlDefaultSegment seg1, ControlDefaultSegment seg2) {
@@ -45,4 +45,48 @@ class ControlPointUtility {
 	public static double DotProduct(double[] p1, double[] p2){
 		return p1[0]*p2[0] + p1[1]*p2[1];
 	}
+	
+	public static double GetSRootDist(double[] one, double[] two){
+		double sum = 0;
+		double basis;
+		for(int i =0;i<Math.min(one.length,two.length);i++){
+			basis = one[i] - two[i];
+			sum+= basis*basis;
+		}
+		return Math.sqrt(sum);
+	}
+	
+	public static int CreateHash(double[] point) {
+		int dimensions = point.length;
+		int val = 1;
+		int prime = 7;
+		for(int i = 0; i<dimensions;i++){
+			val=val*prime;
+			val=val ^ ((int)Math.floor(point[i]));
+		}
+		return val;
+		
+	}
+	
+	public static long CreateSeedHash(long seed,int[] point) {
+		int dimensions = point.length;
+		long val = seed;
+		int prime = 7;
+		for(int i = 0; i<dimensions;i++){
+			val=val*prime;
+			val=val ^ (point[i]);
+		}
+		return val;
+		
+	}
+	
+	public static String CreateLabel(double[] point) {
+		int dimensions = point.length;
+		String label = "";
+		for(int i = 0; i<dimensions;i++){
+			label = label + ":" + point[i];
+		}
+		return label;
+	}
+	
 }

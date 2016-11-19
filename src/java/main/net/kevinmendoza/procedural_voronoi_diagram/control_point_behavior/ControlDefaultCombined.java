@@ -58,9 +58,13 @@ public class ControlDefaultCombined extends ControlAbstractPoint {
 		return intersect;
 	}
 	
+	public int getRGBIdentifier(){
+		return segs.size()*255;
+	}
+	
 	@Override
 	public String toString(){
-		return label;
+		return getType() + " " + label;
 	}
 	
 	@Override

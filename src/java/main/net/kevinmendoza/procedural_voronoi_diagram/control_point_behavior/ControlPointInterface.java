@@ -3,6 +3,8 @@ package net.kevinmendoza.procedural_voronoi_diagram.control_point_behavior;
 public interface ControlPointInterface {
 
 	boolean intersects(ControlPointInterface otherControlPoint);
+	
+	int getRGBIdentifier();
 
 	double[] getClosestPoint(double[] point);
 	
@@ -24,9 +26,4 @@ public interface ControlPointInterface {
 		return -1;
 	}
 	
-	static double GetSRootDist(double[] one, double[] two){
-		double xx = one[0] - two[0];
-		double yy = one[1] - two[1];
-		return Math.sqrt(xx*xx + yy*yy);
-	}
 }

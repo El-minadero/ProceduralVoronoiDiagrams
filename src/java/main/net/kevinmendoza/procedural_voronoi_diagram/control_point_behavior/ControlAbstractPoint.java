@@ -30,6 +30,10 @@ public abstract class ControlAbstractPoint implements ControlPointInterface {
 			return unweightedDist;
 	}
 	
+	public int getRGBIdentifier(){
+		return 300;
+	}
+	
 	protected abstract double getDistanceCutoff();
 	
 	protected abstract double getUnweightedDistance(double[] pointVec);

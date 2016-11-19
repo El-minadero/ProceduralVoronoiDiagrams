@@ -18,16 +18,16 @@ class VoronoiImplementation implements VoronoiDiagram {
 	
 	@Override
 	public List<ControlPointInterface> getLowestCostObjectsAtPoint(
-			double[] point) {
+			double[] point,int dimensions) {
+		if(dimensions<2)
+			dimensions = 2;
 		//System.out.println("STRING");
-		List<ControlPointInterface> centers = creationBehavior.getLocalControlPoints(point);
+		List<ControlPointInterface> centers = creationBehavior.getLocalControlPoints(point,dimensions);
 		//System.out.println("size" + centers.size());
 		List<ControlPointInterface> newCenters = combineCenters(centers);
 		newCenters.sort((ControlPointInterface o1, ControlPointInterface o2)
 				->ControlPointInterface.Compare(o1, o2, point));
-		for(ControlPointInterface inter : newCenters){
-			System.out.println("distances:" + inter.getDistance(point,true) );
-		}
+		
 		return newCenters;
 	}
 
@@ -40,9 +40,7 @@ class VoronoiImplementation implements VoronoiDiagram {
 			for(String key2 : keys){
 				if(!key1.equalsIgnoreCase(key2)){
 					if(newGraph.getVertex(key1).intersects(newGraph.getVertex(key2))){
-						newGraph.getVertex(key1).intersects(newGraph.getVertex(key2));
 						newGraph.addEdge(newGraph.getVertex(key1),  newGraph.getVertex(key2));
-						
 					}
 				}
 			}

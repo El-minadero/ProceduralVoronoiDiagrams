@@ -3,9 +3,9 @@ package net.kevinmendoza.procedural_voronoi_diagram.control_point_creation;
 import net.kevinmendoza.procedural_voronoi_diagram.control_point_behavior.ControlDefaultPoint;
 import net.kevinmendoza.procedural_voronoi_diagram.control_point_behavior.ControlPointInterface;
 
-public class PointGenerator extends AbstractControlGenerator {
+public class ControlPointGenerator extends AbstractControlGenerator {
 
-	public PointGenerator(long seed,double spacing){
+	public ControlPointGenerator(long seed,double spacing){
 		super(seed);
 		setSpacing(spacing);
 	}
