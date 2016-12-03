@@ -13,7 +13,7 @@ public class ControlDefaultCombined extends ControlAbstractPoint {
 		segs = new ArrayList<ControlPointInterface>();
 		segs.addAll(builder.centers);
 		hashCode = segs.get(0).hashCode();
-		label = segs.get(0).toString();
+		label = createLabel();
 	}
 
 	@Override
@@ -48,6 +48,7 @@ public class ControlDefaultCombined extends ControlAbstractPoint {
 		}
 		return closestPoint;
 	}
+
 	
 	@Override
 	public boolean intersects(ControlPointInterface otherControlPoint) {
@@ -58,8 +59,12 @@ public class ControlDefaultCombined extends ControlAbstractPoint {
 		return intersect;
 	}
 	
-	public int getRGBIdentifier(){
-		return segs.size()*255;
+	public String createLabel(){
+		String lab = "";
+		for(int i = 0; i< segs.size();i++){
+			lab = lab + "|" + segs.get(i).toString();
+		}
+		return lab;
 	}
 	
 	@Override

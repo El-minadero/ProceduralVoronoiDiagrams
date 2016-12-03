@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Random;
 import net.kevinmendoza.procedural_voronoi_diagram.control_point_behavior.ControlPointUtility;
 
-class SeedPointGenerator {
+class ProceduralCenterGenerator {
 
 	private long seed;
-	private final int SEARCH_RADIUS = 2;
+	private final int SEARCH_RADIUS = 1;
 
-	public SeedPointGenerator(long seed){
+	public ProceduralCenterGenerator(long seed){
 		this.seed = seed;
 	}
 	

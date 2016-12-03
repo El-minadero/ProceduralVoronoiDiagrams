@@ -19,8 +19,10 @@ class VoronoiImplementation implements VoronoiDiagram {
 	@Override
 	public List<ControlPointInterface> getLowestCostObjectsAtPoint(
 			double[] point,int dimensions) {
-		if(dimensions<2)
+		if(dimensions<2) {
 			dimensions = 2;
+		}
+			
 		//System.out.println("STRING");
 		List<ControlPointInterface> centers = creationBehavior.getLocalControlPoints(point,dimensions);
 		//System.out.println("size" + centers.size());

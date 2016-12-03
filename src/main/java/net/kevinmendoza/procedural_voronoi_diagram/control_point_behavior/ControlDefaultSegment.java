@@ -8,7 +8,7 @@ public class ControlDefaultSegment extends ControlAbstractPoint  {
 	private double max;
 	private double squaredMax;
 	private String label;
-	private final double cutoff = 3;
+	private final double cutoff = 5;
 	
 	public ControlDefaultSegment(ControlSegmentBuilder builder){
 		super("Segment",1,1);
@@ -74,8 +74,8 @@ public class ControlDefaultSegment extends ControlAbstractPoint  {
 	}
 	
 	private void createString() {
-		this.label = ControlPointUtility.CreateLabel(end1) + 
-					 ControlPointUtility.CreateLabel(end2);
+		this.label = "p1{" + ControlPointUtility.CreateLabel(end1) + "}" + 
+				     "#p2{" + ControlPointUtility.CreateLabel(end2) + "}";
 	}
 	
 	private void initLine(ControlSegmentBuilder builder){

@@ -25,7 +25,7 @@ public class ControlPointUtility {
 		double t = (1/d)* -(-(u_0x - v_0x)*v_1y + (u_0y - v_0y)*v_1x);
 
 		// s & t are parametric values between 1 and 0. 
-		if( s*s <= 1 && t*t <= 1)
+		if( s <= 1 && s >=0 && t<=1 && t >=0)
 			return 0;
 
 		double[] seg1p2 = seg1.getEndPoint(false);
@@ -82,9 +82,9 @@ public class ControlPointUtility {
 	
 	public static String CreateLabel(double[] point) {
 		int dimensions = point.length;
-		String label = "";
+		String label = ""; String dim = "xyz";
 		for(int i = 0; i<dimensions;i++){
-			label = label + ":" + point[i];
+			label = label + "|" + dim.charAt(i) + ":" + Math.round(point[i]);
 		}
 		return label;
 	}
